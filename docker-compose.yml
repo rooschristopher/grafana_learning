@@ -57,21 +57,23 @@ services:
       - elasticsearch
     networks:
       - monitoring_network
-
-  axiom:
-    image: axiom/docker-axiom:latest
-    container_name: axiom
-    hostname: axiom
-    environment:
-      - AXIOM_ADMIN_USER=admin
-      - AXIOM_ADMIN_PASSWORD=admin
-      - AXIOM_HTTP_PORT=8080
+  mocker:
+    container_name: mocker
+    hostname: mocker
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
-      - axiom_data:/axiom/data
+      - .:/app
     networks:
       - monitoring_network
+
+
+
+
+
 
 volumes:
   prometheus_data:
