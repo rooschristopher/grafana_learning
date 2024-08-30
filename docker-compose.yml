@@ -12,7 +12,6 @@ services:
       - "9090:9090"
     networks:
       - monitoring_network
-
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -69,11 +68,6 @@ services:
       - .:/app
     networks:
       - monitoring_network
-
-
-
-
-
 
 volumes:
   prometheus_data:
