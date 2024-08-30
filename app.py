@@ -64,7 +64,7 @@ def mock_elb_log():
             },
             "log": {
                 "file": {
-                    "path": f"https://alb-elastic-agent-relay-us-east-1-production.s3.us-east-1.amazonaws.com/AWSLogs/987198178729/elasticloadbalancing/us-east-1/2024/08/29/{str(uuid.uuid4())}_elasticloadbalancing_us-east-1_app.ALB-API.0fe77309"
+                    "path": f"https://alb-elastic-agent-relay-us-east-1-production.s3.us-east-1.amazonaws.com/AWSLogs/somenumber/elasticloadbalancing/us-east-1/2024/08/29/{str(uuid.uuid4())}_elasticloadbalancing_us-east-1_app.some_number"
                 },
                 "offset": random.randint(1000000, 9999999)
             },
@@ -185,7 +185,7 @@ def mock_elb_log():
                         }
                     },
                     "target_group": {
-                        "arn": f"arn:aws:elasticloadbalancing:us-east-1:987198178729:targetgroup/ALB-API/{str(uuid.uuid4())}"
+                        "arn": f"arn:aws:elasticloadbalancing:us-east-1:somenumber:targetgroup/somenumber/{str(uuid.uuid4())}"
                     },
                     "backend_processing_time": {
                         "sec": 0.067
