@@ -45,7 +45,7 @@ def mock_elb_log():
     namespace = random_namespace()
 
     log = {
-        "_index": f".ds-logs-aws.elb_logs-{datetime.now().strftime('%Y.%m.%d')}-000438",
+        "_index": f".ds-logs-aws.elb_logs-{datetime.now().strftime('%Y.%m.%d')}-some_number",
         "_id": str(uuid.uuid4()),
         "_version": 1,
         "_score": 0,
@@ -152,7 +152,7 @@ def mock_elb_log():
                         "arn": f"arn:aws:s3:::some_bucket"
                     },
                     "object": {
-                        "key": f"AWSLogs/987198178729/elasticloadbalancing/us-east-1/2024/08/29/{str(uuid.uuid4())}_elasticloadbalancing_us-east-1_app.ALB-API.0fe77309"
+                        "key": f"AWSLogs/somenumber/elasticloadbalancing/us-east-1/2024/08/29/{str(uuid.uuid4())}_elasticloadbalancing_us-east-1_app.ALB-API.0fe77309"
                     }
                 },
                 "elb": {
@@ -173,7 +173,7 @@ def mock_elb_log():
                     "target_status_code": [
                         "200"
                     ],
-                    "name": "app/ALB-API/0fe77309ede7cbad",
+                    "name": "app/ELB/some_number",
                     "backend": {
                         "port": "443",
                         "ip": "192.168.24.248",
@@ -220,7 +220,7 @@ def mock_elb_log():
         },
         "fields": {
             "aws.elb.target_group.arn": [
-                f"arn:aws:elasticloadbalancing:us-east-1:987198178729:targetgroup/ALB-API/{str(uuid.uuid4())}"
+                f"arn:aws:elasticloadbalancing:us-east-1:somenumber:targetgroup/ALB-API/{str(uuid.uuid4())}"
             ],
             "aws.elb.backend.ip": [
                 "192.168.24.248"
