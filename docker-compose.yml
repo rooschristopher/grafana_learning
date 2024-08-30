@@ -67,6 +67,8 @@ services:
     networks:
       - monitoring_network
   loki:
+    hostname: loki
+    container_name: loki
     image: grafana/loki:2.9.2
     ports:
       - "3100:3100"
@@ -81,14 +83,12 @@ services:
     command: -config.file=/etc/promtail/config.yml
     networks:
       - monitoring_network
-
 volumes:
   prometheus_data:
   grafana_data:
   es_data:
   promtail_data:
   loki_data:
-
 
 networks:
   monitoring_network:
