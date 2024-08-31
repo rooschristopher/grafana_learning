@@ -353,7 +353,12 @@ def mock_elb_log():
 app = Flask(__name__)
 
 @app.route('/')
-def mock():
+def home():
+    return json.dumps({"message": "Mocking Things."}), 200, {'Content-Type': 'application/json'}
+
+
+@app.route('/elb')
+def mock_elb():
     return json.dumps(mock_elb_log()['_source'], indent=4), 200, {'Content-Type': 'application/json'}
 
 
