@@ -102,7 +102,19 @@ services:
       - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - monitoring_network
 
+  cloudwatch_lambda_metrics:
+    build:
+      context: ./prometheus_metrics_servers/cloudwatch_lambda_metrics
+      dockerfile: Dockerfile
+    container_name: cloudwatch_lambda_metrics
+    hostname: cloudwatch_lambda_metrics
+    ports:
+      - "8001:8000"
+    networks:
+      - monitoring_network
 volumes:
   prometheus_data:
   grafana_data:
