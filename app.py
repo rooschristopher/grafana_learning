@@ -348,13 +348,12 @@ def mock_elb_log():
 
     return log
 
-
-# Example usage:
 app = Flask(__name__)
 
 @app.route('/')
 def home():
     return json.dumps({"message": "Mocking Things."}), 200, {'Content-Type': 'application/json'}
+
 
 
 @app.route('/elb')

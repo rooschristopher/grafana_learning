@@ -32,12 +32,9 @@ docker-compose up
 ```
 
 
-## Diagram 
+## Diagram
 
 ![Grafana Evaluation Diagram](Grafana_Evaluation_Diagram.png)
-
-
-
 
 
 
