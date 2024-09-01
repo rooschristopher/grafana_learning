@@ -59,7 +59,7 @@ services:
     container_name: mocker
     hostname: mocker
     build:
-      context: .
+      context: ./mocker
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
