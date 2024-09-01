@@ -94,7 +94,7 @@ services:
       - "4571:4571"
       - "3031:8080"
     environment:
-      - SERVICES=serverless,s3,lambda,dynamodb,cloudformation,waf
+      - SERVICES=serverless,s3,lambda,dynamodb,cloudformation,waf,sts,iam,logs, cloudwatch
       - DEBUG=1
       - DATA_DIR=/tmp/localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
@@ -107,7 +107,7 @@ volumes:
   prometheus_data:
   grafana_data:
   es_data:
-  axiom_data:
+  promtail_data:
 
 networks:
   monitoring_network:

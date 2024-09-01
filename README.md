@@ -10,9 +10,13 @@ To get started, you will need to install the following tools:
 
 - [Docker](https://www.docker.com/)
 - [Docker-Compose](https://docs.docker.com/compose/)
+- [Terraform](https://www.terraform.io/)
+- [Localstack](https://localstack.cloud/)
+- [Axiom](https://axiom.co/)
+- [Prometheus](https://prometheus.io/)
+- [Grafana](https://grafana.com/)
+- [Terraform Localstack Provider](https://docs.localstack.cloud/user-guide/integrations/terraform/)
 
-You will need a localstack account and get the access key.
-You will need an axiom account.
 
 You will need to create a `.env` file in the root of the project with the following contents:
 ```.env

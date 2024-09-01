@@ -1,14 +1,3 @@
-provider "aws" {
-  access_key = "test"
-  secret_key = "test"
-  region     = "us-east-1"
-  endpoints {
-    lambda       = "http://localhost:4566"
-    cloudwatch   = "http://localhost:4566"
-    iam          = "http://localhost:4566"
-  }
-}
-
 resource "aws_iam_role" "lambda_role" {
   name = "lambda-exec-role"
 
@@ -35,14 +24,17 @@ resource "aws_lambda_function" "my_lambda" {
   role             = aws_iam_role.lambda_role.arn
   handler          = "index.handler"
   runtime          = "python3.8"
-  filename         = "lambda.zip"
-  source_code_hash = filebase64sha256("lambda_function/lambda.zip")
+  filename         = "./lambda_function/lambda.zip"
+  source_code_hash = filebase64sha256("./lambda_function/lambda.zip")
 
   environment {
     variables = {
       LOG_LEVEL = "DEBUG"
     }
   }
+
+  # Add explicit CloudWatch log group
+  depends_on = [aws_cloudwatch_log_group.lambda_log_group]
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
