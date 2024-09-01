@@ -90,13 +90,13 @@ def mock_elb_log():
                     "region_name": geo_location["state_name"]
                 },
                 "as": {
-                    "number": 5048,
+                    "number": random.int(1000, 9999),
                     "organization": {
-                        "name": "FIBER"
+                        "name": "some_organization"
                     }
                 },
                 "port": random.randint(10000, 65535),
-                "ip": "209.90.78.156"
+                "ip": "some_ip"
             },
             "url": {
                 "path": path,
@@ -152,7 +152,7 @@ def mock_elb_log():
                         "arn": f"arn:aws:s3:::some_bucket"
                     },
                     "object": {
-                        "key": f"AWSLogs/somenumber/elasticloadbalancing/us-east-1/2024/08/29/{str(uuid.uuid4())}_elasticloadbalancing_us-east-1_app.ALB-API.0fe77309"
+                        "key": f"AWSLogs/somenumber/elasticloadbalancing/us-east-1/2024/08/29/{str(uuid.uuid4())}_elasticloadbalancing_us-east-1_app.some_api.0fe77309"
                     }
                 },
                 "elb": {
@@ -176,7 +176,7 @@ def mock_elb_log():
                     "name": "app/ELB/some_number",
                     "backend": {
                         "port": "443",
-                        "ip": "192.168.24.248",
+                        "ip": "some_ip",
                         "http": {
                             "response": {
                                 # randomly select a status code from a distribution
@@ -220,10 +220,10 @@ def mock_elb_log():
         },
         "fields": {
             "aws.elb.target_group.arn": [
-                f"arn:aws:elasticloadbalancing:us-east-1:somenumber:targetgroup/ALB-API/{str(uuid.uuid4())}"
+                f"arn:aws:elasticloadbalancing:us-east-1:somenumber:targetgroup/some_api/{str(uuid.uuid4())}"
             ],
             "aws.elb.backend.ip": [
-                "192.168.24.248"
+               "some_ip"
             ],
             "elastic_agent.version": [
                 "8.0.1"
@@ -247,10 +247,10 @@ def mock_elb_log():
                 0.001
             ],
             "aws.elb.name": [
-                "app/ALB-API/0fe77309ede7cbad"
+                "app/some_api/some_id"
             ],
             "source.ip": [
-                "209.90.78.156"
+               "some_ip" 
             ],
             "agent.name": [
                 "elastic-agent-relay-production"
