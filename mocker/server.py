@@ -250,7 +250,7 @@ def mock_elb_log():
                 "app/some_api/some_id"
             ],
             "source.ip": [
-               "some_ip" 
+               "some_ip"
             ],
             "agent.name": [
                 "elastic-agent-relay-production"
