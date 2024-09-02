@@ -1,5 +1,6 @@
 import boto3
 import time
+from botocore.exceptions import ClientError
 from prometheus_client import start_http_server, Gauge
 
 # Define Prometheus metrics
@@ -23,40 +24,65 @@ def scrape_logs():
 
     log_group_name = '/aws/lambda/my_lambda'  # Replace with your log group name
 
-    # Describe log streams
-    log_streams = logs_client.describe_log_streams(
-        logGroupName=log_group_name,
-        orderBy='LastEventTime',
-        descending=True,
-        limit=1  # Get the latest log stream
-    )
-
-    if 'logStreams' in log_streams and len(log_streams['logStreams']) > 0:
-        log_stream_name = log_streams['logStreams'][0]['logStreamName']
-
-        # Get log events
-        log_events = logs_client.get_log_events(
+    try:
+        # Describe log streams
+        log_streams = logs_client.describe_log_streams(
             logGroupName=log_group_name,
-            logStreamName=log_stream_name,
-            startTime=last_processed_timestamp + 1,  # Fetch logs after the last processed timestamp
-            startFromHead=True
+            orderBy='LastEventTime',
+            descending=True,
+            limit=1  # Get the latest log stream
         )
 
-        # Update the Prometheus metric with the count of new log events
-        new_log_count = len(log_events['events'])
-        log_entry_count.set(new_log_count)
+        if 'logStreams' in log_streams and len(log_streams['logStreams']) > 0:
+            log_stream_name = log_streams['logStreams'][0]['logStreamName']
 
-        # Update the last processed timestamp if there are new logs
-        if new_log_count > 0:
-            last_processed_timestamp = log_events['events'][-1]['timestamp']
+            # Get log events
+            log_events = logs_client.get_log_events(
+                logGroupName=log_group_name,
+                logStreamName=log_stream_name,
+                startTime=last_processed_timestamp + 1,  # Fetch logs after the last processed timestamp
+                startFromHead=True
+            )
 
-    else:
-        log_entry_count.set(0)  # No logs found, set count to 0
+            # Update the Prometheus metric with the count of new log events
+            new_log_count = len(log_events['events'])
+            log_entry_count.set(new_log_count)
+
+            # Update the last processed timestamp if there are new logs
+            if new_log_count > 0:
+                last_processed_timestamp = log_events['events'][-1]['timestamp']
+
+        else:
+            log_entry_count.set(0)  # No logs found, set count to 0
+
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'ResourceNotFoundException':
+            print("Log group or log stream not found. Waiting for LocalStack to be ready...")
+        else:
+            print(f"Unexpected error: {e}")
+        log_entry_count.set(0)  # Set metric to 0 in case of an error
 
 if __name__ == '__main__':
     # Start the Prometheus metrics server
     start_http_server(8000)
 
+    # Wait until the log group is available
+    log_group_name = '/aws/lambda/my_lambda'
+    print("Waiting for the log group to be available in LocalStack...")
+
+    while True:
+        try:
+            logs_client.describe_log_streams(logGroupName=log_group_name)
+            print("Log group found. Starting to scrape logs.")
+            break
+        except ClientError as e:
+            if e.response['Error']['Code'] == 'ResourceNotFoundException':
+                time.sleep(5)  # Wait and retry
+            else:
+                raise e
+
+    # Start scraping logs
     while True:
         scrape_logs()
         time.sleep(10)
+
